@@ -68,6 +68,26 @@ struct ChatView: View {
             chatState = newState
             // Keep the input field focused after sending
             isInputFocused = true
+
+            // Call the API after sending the user message
+            Task {
+                await fetchAssistantResponse()
+            }
+        }
+    }
+
+    private func fetchAssistantResponse() async {
+        do {
+            let response = try await OpenAIClient.shared.sendChatRequest(messages: chatState.apiMessages)
+            if let reply = response.content {
+                // Update chat state with assistant's reply on the main thread
+                await MainActor.run {
+                    chatState = chatState.addAssistantMessage(reply)
+                }
+            }
+        } catch {
+            // Optionally, handle error (e.g., show error message in chat)
+            print("API error: \(error.localizedDescription)")
         }
     }
 }

@@ -27,4 +27,29 @@ struct ChatViewState {
         guard let message = inputState.createUserMessage() else { return nil }
         return addMessage(message).clearInput()
     }
+}
+
+// MARK: - OpenAI API Integration Helpers
+extension ChatViewState {
+    // Convert local messages to API messages
+    var apiMessages: [Message] {
+        messages.map { msg in
+            Message(
+                role: msg.isUser ? .user : .assistant,
+                content: msg.text
+            )
+        }
+    }
+
+    // Add an assistant message to the chat
+    func addAssistantMessage(_ text: String) -> ChatViewState {
+        var newState = self
+        let assistantMessage = ChatMessage(
+            text: text,
+            isUser: false,
+            timestamp: Date()
+        )
+        newState.messages.append(assistantMessage)
+        return newState
+    }
 } 
