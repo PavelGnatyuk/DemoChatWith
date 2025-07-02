@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ChatInputView: View {
     @Binding var text: String
+    @FocusState.Binding var isInputFocused: Bool
     let onSend: () -> Void
     
     var body: some View {
@@ -18,6 +19,7 @@ struct ChatInputView: View {
                     )
                     .frame(minHeight: 40)
                     .lineLimit(1...5)
+                    .focused($isInputFocused)
                 
                 Button(action: onSend) {
                     Image(systemName: "arrow.up.circle.fill")
@@ -39,6 +41,7 @@ struct ChatInputView: View {
         Spacer()
         ChatInputView(
             text: .constant(""),
+            isInputFocused: FocusState<Bool>().projectedValue,
             onSend: {}
         )
     }

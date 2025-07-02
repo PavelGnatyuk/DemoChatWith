@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ChatView: View {
     @State private var chatState = ChatViewState()
+    @FocusState private var isInputFocused: Bool
     
     var body: some View {
         VStack(spacing: 0) {
@@ -24,6 +25,22 @@ struct ChatView: View {
                         }
                     }
                 }
+                .gesture(
+                    // Tap gesture to dismiss keyboard
+                    TapGesture()
+                        .onEnded { _ in
+                            isInputFocused = false
+                        }
+                )
+                .gesture(
+                    // Swipe down gesture to dismiss keyboard
+                    DragGesture(minimumDistance: 20, coordinateSpace: .local)
+                        .onEnded { value in
+                            if value.translation.height > 0 && abs(value.translation.width) < abs(value.translation.height) {
+                                isInputFocused = false
+                            }
+                        }
+                )
             }
             
             // Input view
@@ -34,16 +51,23 @@ struct ChatView: View {
                         chatState = chatState.updateInputText(newText)
                     }
                 ),
+                isInputFocused: $isInputFocused,
                 onSend: sendMessage
             )
         }
         .background(Color(.systemBackground))
+        .onAppear {
+            // Auto-focus the input field when the view appears
+            isInputFocused = true
+        }
     }
     
     // Pure function for sending messages
     private func sendMessage() {
         if let newState = chatState.sendMessage() {
             chatState = newState
+            // Keep the input field focused after sending
+            isInputFocused = true
         }
     }
 }
