@@ -22,14 +22,25 @@ DemoChatWith is a demo project showcasing:
 
 ```
 DemoChatWith/
-├── README.md                    # This file
-├── Document/
-│   └── Specification.md         # Complete project specification
-├── DemoChatWith.xcodeproj/      # Xcode project files
-├── DemoChatWith/
+├── DemoChatWith/                # App source folder
+│   ├── Models/                  # Data models
+│   │   ├── ChatMessage.swift
+│   │   ├── ChatInputState.swift
+│   │   ├── ChatViewState.swift
+│   │   ├── MessageType.swift
+│   │   └── ChatBubbleStyle.swift
+│   ├── Views/                   # UI components
+│   │   ├── ChatBubbleView.swift
+│   │   ├── ChatInputView.swift
+│   │   └── ChatView.swift
+│   ├── ContentView.swift        # Main content view
 │   ├── DemoChatWithApp.swift    # App entry point
-│   ├── ContentView.swift        # Main UI
 │   └── Assets.xcassets/         # App assets
+├── DemoChatWith.xcodeproj/      # Xcode project
+├── Document/                    # Project documentation
+│   ├── phase1.md
+│   └── Specification.md
+├── README.md                    # Project README
 └── .gitignore                   # Git ignore rules
 ```
 
