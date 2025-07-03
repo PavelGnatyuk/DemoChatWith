@@ -21,6 +21,12 @@ struct MainTabView: View {
                     Image(systemName: "message.badge.waveform.fill")
                     Text("Responses")
                 }
+            
+            StreamChatView()
+                .tabItem {
+                    Image(systemName: "waveform")
+                    Text("Stream")
+                }
         }
         .navigationTitle("DemoChatWith")
         .navigationBarTitleDisplayMode(.inline)
