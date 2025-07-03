@@ -9,9 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        ChatView()
-            .navigationTitle("DemoChatWith")
-            .navigationBarTitleDisplayMode(.inline)
+        MainTabView()
     }
 }
 

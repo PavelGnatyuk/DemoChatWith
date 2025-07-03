@@ -6,6 +6,7 @@ struct APIConfiguration {
     // MARK: - API Endpoints
     static let baseURL = "https://api.openai.com/v1"
     static let chatEndpoint = "/chat/completions"
+    static let responsesEndpoint = "/responses"
     
     // MARK: - Model Configuration
     static let defaultModel = "gpt-3.5-turbo"

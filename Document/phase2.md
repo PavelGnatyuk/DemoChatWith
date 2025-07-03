@@ -32,6 +32,12 @@ Phase 2 focused on implementing the complete chat interface UI using SwiftUI, fo
    - Organized code into Models and Views folders
    - Maintained proper separation of concerns
 
+5. **API Layer Extension for Responses**
+   - Extended APIConfiguration.swift
+   - Extended OpenAIClient.swift
+   - Enhanced ResponsesChatView for Testing
+   - API Integration Verification
+
 ---
 
 ## 📁 Deliverables
@@ -121,6 +127,55 @@ Phase 2 focused on implementing the complete chat interface UI using SwiftUI, fo
 - ✅ Input field functions properly
 - ✅ Send button state management works
 - ✅ Auto-scrolling functionality verified
+
+### **Build Verification**
+- ✅ Successfully built for iPhone 16 simulator
+- ✅ No compilation errors
+- ✅ All new API methods compile correctly
+- ✅ Existing functionality preserved
+
+### **API Architecture**
+```
+OpenAIClient.shared
+├── sendChatRequest() → /chat/completions
+└── sendResponsesRequest() → /chat/responses
+```
+
+Both methods:
+- Use same request/response models
+- Share error handling logic
+- Have identical parameter signatures
+- Return same `OpenAIResponse` type
+
+### **File Structure Changes**
+```
+DemoChatWith/
+├── API/
+│   ├── APIConfiguration.swift (UPDATED - added responsesEndpoint)
+│   ├── OpenAIClient.swift (UPDATED - added sendResponsesRequest)
+│   └── [Other API files unchanged]
+├── Views/
+│   ├── ResponsesChatView.swift (UPDATED - added test functionality)
+│   └── [Other view files unchanged]
+└── [Models unchanged]
+```
+
+### **Acceptance Criteria Met**
+- ✅ API layer extended with Responses endpoint
+- ✅ Shared logic: streaming, JSON decoding, error handling
+- ✅ Test functionality to verify API integration
+- ✅ Clean code structure maintained
+- ✅ No breaking changes to existing functionality
+
+### **Testing Instructions**
+1. **Build and run** the app in Xcode
+2. **Navigate to Tab 2 (Responses)**
+3. **Tap "Test Responses API"** button
+4. **Verify**:
+   - Loading state appears
+   - API call completes
+   - Success/error result displayed
+   - Same response format as Completions
 
 ---
 

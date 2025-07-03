@@ -33,6 +33,12 @@ class NetworkManager {
         // Perform request
         let (data, response) = try await URLSession.shared.data(for: request)
         
+        // --- DEBUG LOGGING ---
+        if let responseString = String(data: data, encoding: .utf8) {
+            print("\n[DEBUG] Raw Server Response:\n\(responseString)\n")
+        }
+        // --- END DEBUG LOGGING ---
+        
         // Validate response
         try validateResponse(response)
         
