@@ -67,16 +67,25 @@ class StreamViewModel: ObservableObject {
                     accumulated += chunk
                     print("Chunk: \(chunk)")
                     print("Accumulated: \(accumulated)")
+                    
+                    // Update the assistant message with accumulated text
                     await MainActor.run {
-                        var updatedMessages = chatState.messages
-                        let old = updatedMessages[assistantIndex]
-                        updatedMessages[assistantIndex] = ChatMessage(
+                        // Create a new message with the accumulated text
+                        let updatedMessage = ChatMessage(
                             text: accumulated,
-                            isUser: old.isUser,
-                            timestamp: old.timestamp
+                            isUser: false,
+                            timestamp: chatState.messages[assistantIndex].timestamp
                         )
-                        chatState.messages = updatedMessages
-                        objectWillChange.send()
+                        
+                        // Create a new state with the updated message
+                        var newMessages = chatState.messages
+                        newMessages[assistantIndex] = updatedMessage
+                        
+                        // Update the entire chat state to trigger UI refresh
+                        chatState = ChatViewState(
+                            messages: newMessages,
+                            inputState: chatState.inputState
+                        )
                     }
                 }
             }
