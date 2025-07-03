@@ -25,11 +25,11 @@ struct StreamChatView: View {
                     .padding(.vertical, 8)
                 }
                 .onChange(of: viewModel.chatState.messages.count) { _, _ in
-                    if let lastMessage = viewModel.chatState.messages.last {
-                        withAnimation(.easeOut(duration: 0.3)) {
-                            proxy.scrollTo(lastMessage.id, anchor: .bottom)
-                        }
-                    }
+                    scrollToBottom(proxy: proxy)
+                }
+                .onChange(of: viewModel.chatState.messages) { _, _ in
+                    // Auto-scroll when any message content changes (for streaming updates)
+                    scrollToBottom(proxy: proxy)
                 }
                 .gesture(
                     TapGesture()
@@ -68,6 +68,14 @@ struct StreamChatView: View {
     private func sendMessage() {
         viewModel.sendMessageStreaming()
         isInputFocused = true
+    }
+    
+    private func scrollToBottom(proxy: ScrollViewProxy) {
+        if let lastMessage = viewModel.chatState.messages.last {
+            withAnimation(.easeOut(duration: 0.3)) {
+                proxy.scrollTo(lastMessage.id, anchor: .bottom)
+            }
+        }
     }
 }
 

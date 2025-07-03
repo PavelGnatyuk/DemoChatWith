@@ -25,12 +25,11 @@ struct CompletionsChatView: View {
                     .padding(.vertical, 8)
                 }
                 .onChange(of: chatState.messages.count) { _, _ in
-                    // Scroll to bottom when new message is added
-                    if let lastMessage = chatState.messages.last {
-                        withAnimation(.easeOut(duration: 0.3)) {
-                            proxy.scrollTo(lastMessage.id, anchor: .bottom)
-                        }
-                    }
+                    scrollToBottom(proxy: proxy)
+                }
+                .onChange(of: chatState.messages) { _, _ in
+                    // Auto-scroll when any message content changes
+                    scrollToBottom(proxy: proxy)
                 }
                 .gesture(
                     // Tap gesture to dismiss keyboard
@@ -95,6 +94,14 @@ struct CompletionsChatView: View {
         } catch {
             // Optionally, handle error (e.g., show error message in chat)
             print("API error: \(error.localizedDescription)")
+        }
+    }
+
+    private func scrollToBottom(proxy: ScrollViewProxy) {
+        if let lastMessage = chatState.messages.last {
+            withAnimation(.easeOut(duration: 0.3)) {
+                proxy.scrollTo(lastMessage.id, anchor: .bottom)
+            }
         }
     }
 }
